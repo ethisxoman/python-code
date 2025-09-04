@@ -1,0 +1,36 @@
+name: Deploy DAGs to Local Airflow (Ubuntu)
+
+on:
+  push:
+    branches: [ main ]   # Triggers only when you push to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Validate DAG Python syntax
+        run: |
+          for f in $(find dags -name "*.py"); do
+            echo "Checking $f"
+            python -m py_compile "$f" || (echo "❌ Syntax error in $f" && exit 1)
+          done
+
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.UBUNTU_SSH_KEY }}
+
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H ${{ secrets.UBUNTU_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Rsync DAGs to Ubuntu machine
+        run: |
+          echo "🔄 Deploying DAGs to ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}"
+          rsync -avz --delete --exclude='.git/' ./dags/ ${{ secrets.UBUNTU_USER }}@${{ secrets.UBUNTU_HOST }}:${{ secrets.UBUNTU_DAG_PATH }}
