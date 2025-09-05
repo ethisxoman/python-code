@@ -2,12 +2,11 @@ name: Deploy DAGs to Local Airflow (Ubuntu)
 
 on:
   push:
-    branches: [ main ]   # Triggers only when you push to main branch
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -28,9 +27,9 @@ jobs:
           ssh-private-key: ${{ secrets.UBUNTU_SSH_KEY }}
 
       - name: Add server to known_hosts
-        run: ssh-keyscan -H ${{ secrets.UBUNTU_HOST }} >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H ${{ secrets.LINUX_HOST }} >> ~/.ssh/known_hosts
 
       - name: Rsync DAGs to Ubuntu machine
         run: |
-          echo "🔄 Deploying DAGs to ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}"
-          rsync -avz --delete --exclude='.git/' ./dags/ ${{ secrets.UBUNTU_USER }}@${{ secrets.UBUNTU_HOST }}:${{ secrets.UBUNTU_DAG_PATH }}
+          echo "🚀 Deploying DAGs to ${{ secrets.UBUNTU_USER }}@${{ secrets.LINUX_HOST }}"
+          rsync -avz --delete --exclude='.git/' ./dags/ ${{ secrets.UBUNTU_USER }}@${{ secrets.LINUX_HOST }}:${{ secrets.UBUNTU_DAG_PATH }}
