@@ -28,7 +28,7 @@ ub.branch, ub.iban, ub.home_address, ub.swift_code
 
 FROM ethisx_accounts.users u 
 
-INNER JOIN ethisx_wallet_live.withdraw_funds AS w 
+right JOIN ethisx_wallet_live.withdraw_funds AS w 
 	ON u.id = w.user_id
 
 LEFT JOIN ethisxadmin.user_bank_infos AS ub

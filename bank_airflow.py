@@ -8,6 +8,7 @@ from connection import get_airflow_connection, source_db, reporting_db
 
 print("Starting pipeline script...")
 
+#query
 query = """SELECT DISTINCT
     u.id AS user_id, 
 

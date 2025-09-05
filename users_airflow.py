@@ -64,7 +64,7 @@ LEFT JOIN ethisx_accounts.user_types AS utp
     ON u.id = utp.user_id
 
 WHERE u.id IS NOT NULL
--- and u.created_at >= '2025-02-01 00:00:00'
+
 ORDER BY u.id ASC;
 """
 

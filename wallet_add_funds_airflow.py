@@ -11,7 +11,7 @@ query = """
     #---------------WALLET ADD FUNDS DATA----------------#
     SELECT DISTINCT
     u.id AS user_id,
-    -- fu.user_id, 
+    
     a.amount AS add_funds_amount, a.currency AS add_funds_currency,
 
     a.base_currency AS add_funds_base_currency_USD, a.converted_amount AS add_funds_converted_amount_USD,  
@@ -26,7 +26,7 @@ query = """
     a.created_at AS add_funds_created_at, a.updated_at AS add_funds_updated_at 
 
     from ethisx_accounts.users u 
-    inner join ethisx_wallet_live.fund_users fu 
+    right join ethisx_wallet_live.fund_users fu 
     on u.id = fu.user_id
 
     LEFT JOIN ethisx_wallet_live.add_funds AS a	
