@@ -204,7 +204,7 @@ def extract_and_load_func(**dictionary):
 with DAG(
     dag_id="users_airflow",
     start_date=days_ago(1),                 #starts yesterday, so scheduler will pick it up
-    schedule_interval="/5 * * * *",        #every 6 hours
+    schedule_interval="*/5 * * * *",        #every 6 hours
     catchup=False,
 ) as dag:
 
