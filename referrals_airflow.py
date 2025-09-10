@@ -115,7 +115,7 @@ def extract_and_load_func(**dictionary):
 with DAG(
     dag_id="referrals_airflow",
     start_date=days_ago(1),      #starts yesterday, so scheduler will pick it up
-    schedule_interval="/5 * * * *",   
+    schedule_interval="*/5 * * * *",   
     catchup=False,
 ) as dag:
 
