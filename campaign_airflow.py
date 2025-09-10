@@ -12,7 +12,7 @@ c.id AS campaign_id, c.`order`, c.title, c.short_desc, c.user_id, c.progress_typ
 c.start_date, c.end_date, c.min_amount, c.max_amount, c.project_timeline,
 c.max_predefined_amount, c.min_predefined_amount, c.funding_goal, c.currency, 
 c.max_equity_offered, c.min_equity_offered, c.divident_target, c.roi_after_tax, 
-c.irr_after_tax, c.recommended_amount, c.contributor_table, c.location, c.country_id, 
+c.irr_after_tax, c.recommended_amount, c.contributor_table, c.location, co.name as country_name,    
 c.admin_aproval, c.draft, c.approved_by, c.approved_at, c.timeline_start_date, 
 c.timeline_end_date, c.payout_notify, c.created_at, c.deleted_at, c.updated_at, 
 c.campaign_type, c.campaign_end_method, c.campaign_opened_at, c.campaign_closed_at, 
@@ -21,6 +21,8 @@ ut.type_id as user_type_id
 FROM ethisxadmin.campaign_masters AS c
 LEFT JOIN ethisx_accounts.user_types AS ut 
     ON c.user_id = ut.user_id
+    left join ethisxadmin.countries as co
+    on c.country_id = co.id
 WHERE c.id IS NOT NULL
 ORDER BY c.id;
 """
@@ -96,7 +98,7 @@ def extract_and_load_func(**dictionary):
         recommended_amount DECIMAL(18,2),
         contributor_table VARCHAR(255),
         location VARCHAR(255),
-        country_id INT,
+        country_name VARCHAR(255),
         admin_aproval TINYINT(1),
         draft TINYINT(1),
         approved_by INT,
