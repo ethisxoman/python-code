@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS {table_name} (
 with DAG(
     dag_id="issuer_onboardings_airflow",
     start_date=days_ago(1),      #starts yesterday, so scheduler will pick it up
-    schedule_interval="0 */6 * * *",   
+    schedule_interval="/5 * * * *",   
     catchup=False,
 ) as dag:
 
