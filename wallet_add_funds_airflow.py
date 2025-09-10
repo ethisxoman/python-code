@@ -158,7 +158,7 @@ def extract_and_load_func(**dictionary):
 with DAG(
     dag_id="wallet_add_funds_airflow",
     start_date=days_ago(1),      #starts yesterday, so scheduler will pick it up
-    schedule_interval="0 */6 * * *",   
+    schedule_interval="/5 * * * *",   
     catchup=False,
 ) as dag:
 
